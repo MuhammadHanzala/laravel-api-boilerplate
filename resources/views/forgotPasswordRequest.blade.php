@@ -12,6 +12,8 @@
     <a href="{{url('user/password-reset', $token)}}" target="_blank">{{url('user/password-reset', $token)}}</a>
   </div>
   <br />
+  This request will be expired in next 24 hours.
+  <br />
   If you didn't request this change, you can disregard this email - we have not yet reset your password.
   <br />
   Thanks!

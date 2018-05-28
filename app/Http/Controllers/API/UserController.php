@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use \Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\DB;
 use Validator;
 
 use App\User;
@@ -126,11 +127,17 @@ class UserController extends Controller
     //Verifying forgot password token via mail
     public function verifyForgotPasswordToken(Request $request, $token)
     {
-      $resetToken = PasswordReset::where('token', $token)->first();
+      $resetToken = PasswordReset::where('token', $token)->latest('created_at')->first();
       if(isset($resetToken) ){
         $request->session()->put(['email' => $resetToken->email]);
         $request->session()->put(['token' => $resetToken->token]);
+        // $resetToken["current_date"] = date('Y-m-d H:i:s', strtotime(gmdate("Y-m-d H:i:s")));
+        // $resetToken["expiry_date"] = date('Y-m-d H:i:s', strtotime($resetToken["created_at"]) + 86400);
+        $expire_within_hours = ((strtotime($resetToken["created_at"]) + 86400) - strtotime(gmdate("Y-m-d H:i:s")) ) / 3600; 
 
+        if($expire_within_hours < 0){
+            return redirect('/message')->with('warning', "Your request has been expired.");
+        }
         //if token is valid, redirect to reset form
         return view("passwordResetForm",compact('resetToken'));
       }
@@ -140,6 +147,7 @@ class UserController extends Controller
     //Submit new Password details by form
     public function resetPassword(Request $request){
       $newDetails = $request->all();
+      $newDetails["email"] = session('email');
       $validator = Validator::make($newDetails, [
           'email' => 'required|email|exists:users,email',
           'password' => 'required|min:6',
