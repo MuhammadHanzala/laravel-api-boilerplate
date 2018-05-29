@@ -127,27 +127,28 @@ class UserController extends Controller
     //Verifying forgot password token via mail
     public function verifyForgotPasswordToken(Request $request, $token)
     {
-      $resetToken = PasswordReset::where('token', $token)->latest('created_at')->first();
+      $resetToken = PasswordReset::where('token', $token)->first();
       if(isset($resetToken) ){
-        $request->session()->put(['email' => $resetToken->email]);
-        $request->session()->put(['token' => $resetToken->token]);
         // $resetToken["current_date"] = date('Y-m-d H:i:s', strtotime(gmdate("Y-m-d H:i:s")));
         // $resetToken["expiry_date"] = date('Y-m-d H:i:s', strtotime($resetToken["created_at"]) + 86400);
-        $expire_within_hours = ((strtotime($resetToken["created_at"]) + 86400) - strtotime(gmdate("Y-m-d H:i:s")) ) / 3600; 
-
+        $expire_within_hours = ((strtotime($resetToken["created_at"]) + env('REQUEST_EXPIRATION')) - strtotime(gmdate("Y-m-d H:i:s")) ) / 3600; 
+        $request->session()->put(['email' => $resetToken->email]);
+        $request->session()->put(['token' => $resetToken->token]);
+        $request->session()->put(['expiry' => $expire_within_hours]);
         if($expire_within_hours < 0){
             return redirect('/message')->with('warning', "Sorry! This link has been expired.");
         }
         //if token is valid, redirect to reset form
         return view("passwordResetForm",compact('resetToken'));
       }
-      return redirect('/message')->with('warning', "Sorry your email cannot be identified.");
+      return redirect('/message')->with('warning', "Sorry your request could not be found or may have been deleted.");
     }
 
     //Submit new Password details by form
     public function resetPassword(Request $request){
       $newDetails = $request->all();
       $newDetails["email"] = session('email');
+      $token = session('token');
       $validator = Validator::make($newDetails, [
           'email' => 'required|email|exists:users,email',
           'password' => 'required|min:6',
@@ -162,6 +163,7 @@ class UserController extends Controller
         $user['password'] = bcrypt($newDetails['password']);
         $user->save();
         Mail::to($user->email)->send(new PasswordResetSuccessful());
+        PasswordReset::where('token', $token)->delete();
         return redirect('/message')->with('status', 'Your password has been reset successfully');
       }
     }

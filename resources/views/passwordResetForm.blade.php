@@ -122,11 +122,8 @@
                           <form class="form-horizontal" name="resetForm" method="POST" action="{{ route('updatePassword') }}">
                                           {{csrf_field()}}
                                           <input type="hidden" name="token" value="{{ session('token') }}">
-
-                                          <!-- <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                                              <label for="email" class="col-md-4 control-label">E-Mail Address:
-                                                <h4 class="email"> {{ session('email') }} </h4></label>
-                                          </div> -->
+                                            <p>Link will be expired within {{round(session('expiry'))}} hours</p>
+                                            
                                           <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
 
                                               <div class="container">
