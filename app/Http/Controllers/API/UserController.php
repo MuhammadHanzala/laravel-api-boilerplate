@@ -131,7 +131,7 @@ class UserController extends Controller
       if(isset($resetToken) ){
         // $resetToken["current_date"] = date('Y-m-d H:i:s', strtotime(gmdate("Y-m-d H:i:s")));
         // $resetToken["expiry_date"] = date('Y-m-d H:i:s', strtotime($resetToken["created_at"]) + 86400);
-        $expire_within_hours = ((strtotime($resetToken["created_at"]) + env('REQUEST_EXPIRATION_TIME')) - strtotime(gmdate("Y-m-d H:i:s")) ) / 3600; 
+        $expire_within_hours = ((strtotime($resetToken["created_at"]) + (env('REQUEST_EXPIRATION_TIME') * 3600)) - strtotime(gmdate("Y-m-d H:i:s")) ) / 3600; 
         $request->session()->put(['email' => $resetToken->email]);
         $request->session()->put(['token' => $resetToken->token]);
         $request->session()->put(['expiry' => $expire_within_hours]);

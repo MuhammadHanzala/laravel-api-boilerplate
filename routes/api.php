@@ -17,10 +17,6 @@ Route::post('register', 'API\UserController@register');
 Route::post('login', 'API\UserController@login');
 Route::post('user/forgot-password-request', 'API\UserController@ForgotPasswordRequest');
 
-Route::group(['middleware' => ['web']], function () {
-  // your routes here
-  Route::get('verify-pass-token/{token}', 'API\UserController@verifyForgotPasswordToken');
-});
 Route::group(['middleware' => 'auth:api'], function(){
   Route::post('user/reset-password', 'API\UserController@resetPasswordByAuth');
 });
