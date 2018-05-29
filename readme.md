@@ -1,6 +1,6 @@
-# Schedule App [Backend]
+# Laravel Api
 
-This is a server for Schedule App
+This is a boilerplate server
 
 ## Getting Started
 
