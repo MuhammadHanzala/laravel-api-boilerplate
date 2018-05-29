@@ -136,7 +136,7 @@ class UserController extends Controller
         $expire_within_hours = ((strtotime($resetToken["created_at"]) + 86400) - strtotime(gmdate("Y-m-d H:i:s")) ) / 3600; 
 
         if($expire_within_hours < 0){
-            return redirect('/message')->with('warning', "Your request has been expired.");
+            return redirect('/message')->with('warning', "Sorry! This link has been expired.");
         }
         //if token is valid, redirect to reset form
         return view("passwordResetForm",compact('resetToken'));

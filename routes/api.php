@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 Route::post('register', 'API\UserController@register');
 Route::post('login', 'API\UserController@login');
 Route::post('user/forgot-password-request', 'API\UserController@ForgotPasswordRequest');
+Route::post('/user/reset-password', ['as' => 'updatePassword', 'uses' => 'API\UserController@resetPassword']);
 
 Route::group(['middleware' => ['web']], function () {
   // your routes here

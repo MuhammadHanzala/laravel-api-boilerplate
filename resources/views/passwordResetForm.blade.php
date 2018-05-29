@@ -73,10 +73,41 @@
               margin: 30px;
             }
             .form-control{
-              display: block;
+                display: block;
+                box-sizing: border-box;
+                border-radius: 4px;
+                border: 3px solid #ccc;
+                -webkit-transition: 0.5s;
+                transition: 0.5s;
+                outline: none;
+                margin: 10px 4px;
+                padding: 10px 20px;
+                font-size: 16px;
             }
+            .form-control:focus {
+                border:  3px solid rgb(12, 110, 146);
+                }
             .email .col-md-6{
               display: inline-block;
+            }
+            .btn {
+                background-color: rgba(255, 255, 255, 0); 
+                border: 3px solid #035856;
+                border-radius: 4px;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 20px 4px;
+                -webkit-transition-duration: 0.4s; /* Safari */
+                transition-duration: 0.4s;
+                cursor: pointer;
+                color: #035856;
+            }
+            .btn:hover {
+                background-color: #035856;
+                color: white;
             }
         </style>
     </head>
@@ -88,46 +119,42 @@
                 <div class="container">
                     <div class="panel-heading alert m-b-md">Reset Password</div>
                       <div class="panel-body">
-                          <form class="form-horizontal" method="POST" action="{{ route('updatePassword') }}">
+                          <form class="form-horizontal" name="resetForm" method="POST" action="{{ route('updatePassword') }}">
                                           {{csrf_field()}}
                                           <input type="hidden" name="token" value="{{ session('token') }}">
 
-                                          <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                                          <!-- <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                                               <label for="email" class="col-md-4 control-label">E-Mail Address:
                                                 <h4 class="email"> {{ session('email') }} </h4></label>
-                                          </div>
+                                          </div> -->
                                           <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                              <label for="password" class="col-md-4 control-label">Password</label>
 
-                                              <div class="col-md-6d">
-                                                  <input id="password" type="password" class="form-control" min="6" name="password" required>
+                                              <div class="container">
+                                                  <input id="password" type="password" placeholder="New Password" class="form-control" min="6" name="password" required>
 
                                                   @if ($errors->has('password'))
-                                                      <span class="help-block">
+                                                      <div class="help-block">
                                                           <strong>{{ $errors->first('password') }}</strong>
-                                                      </span>
+                                                      </div>
                                                   @endif
                                               </div>
                                           </div>
 
                                           <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                                              <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-                                              <div class="col-md-6">
-                                                  <input id="password-confirm" type="password" class="form-control" min="6" name="password_confirmation" required>
+                                              <div class="container">
+                                                  <input id="password-confirm" type="password" placeholder="Confirm Password" class="form-control" min="6" name="password_confirmation" required>
 
                                                   @if ($errors->has('password_confirmation'))
-                                                      <span class="help-block">
+                                                      <div class="help-block">
                                                           <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                                      </span>
+                                                      </div>
                                                   @endif
                                               </div>
                                           </div>
 
                                           <div class="form-group">
                                               <div class="col-md-6 col-md-offset-4">
-                                                  <button type="submit" class="btn btn-primary">
-                                                      Reset Password
-                                                  </button>
+                                                  <input class="btn btn-primary" id="submitBtn" type="submit" value="Submit" onclick="this.disabled=true;this.value='Submitting, please wait...'; resetForm.submit()" />
                                               </div>
                                           </div>
                                       </form>
