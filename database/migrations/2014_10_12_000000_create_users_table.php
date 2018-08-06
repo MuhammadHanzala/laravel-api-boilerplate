@@ -17,7 +17,9 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('imageUrl')->nullable();
             $table->string('password');
+            $table->boolean('2fa')->default(false);
             $table->string('api_token', 60)->unique()->nullable();
             $table->boolean('isVerified')->default(false);
             $table->rememberToken();

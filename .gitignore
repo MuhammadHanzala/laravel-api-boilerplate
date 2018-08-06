@@ -1,3 +1,5 @@
+/apidoc/*
+apidoc.json
 /node_modules
 /public/hot
 /public/storage
@@ -6,8 +8,11 @@
 /.idea
 /.vscode
 /.vagrant
+/.idea
 Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
 .env
+composer.lock
+package-lock.json

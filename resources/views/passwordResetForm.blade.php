@@ -109,6 +109,9 @@
                 background-color: #035856;
                 color: white;
             }
+            .help-block{
+                color: red;
+            }
         </style>
     </head>
     <body>
@@ -151,7 +154,7 @@
 
                                           <div class="form-group">
                                               <div class="col-md-6 col-md-offset-4">
-                                                  <input class="btn btn-primary" id="submitBtn" type="submit" value="Submit" onclick="this.disabled=true;this.value='Submitting, please wait...'; resetForm.submit()" />
+                                                  <input class="btn btn-primary" id="submitBtn" type="submit" value="Submit" onclick="resetForm.submit(); this.disabled=true; this.value='Submitting, please wait...'" />
                                               </div>
                                           </div>
                                       </form>

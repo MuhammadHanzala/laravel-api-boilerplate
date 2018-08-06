@@ -16,6 +16,7 @@ Follow this [Guide](https://gist.github.com/hootlex/da59b91c628a6688ceb1#file-la
 - Open the console and cd your project root directory
 - Run `composer install`
 - Rename `.env.example` file to `.env`inside your project root and fill the database information.
+- Enter credentials of database and mailtrap in `env` file.
 - Run `php artisan key:generate`
 - Run `php artisan migrate`
 - Run `php artisan passport:install`

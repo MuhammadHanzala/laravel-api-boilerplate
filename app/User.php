@@ -4,11 +4,13 @@ namespace App;
 
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, Notifiable;
+    use HasApiTokens, HasMediaTrait, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'imageUrl', 'isVerified', '2fa'
     ];
 
     /**
@@ -25,11 +27,38 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'api_token'
     ];
 
     public function verifyUser()
     {
         return $this->hasOne('App\VerifyUser');
     }
+
+    public function categories(){
+        return $this->hasMany('App\Category');
+    }
+
+    public function subCategories(){
+        return $this->hasMany('App\SubCategory');
+    }
+
+    public function todos(){
+        return $this->hasMany('App\TodoItem');
+    }
+
+    public function groups(){
+        return $this->hasMany('App\Group','created_by');
+    }
+
+    public function friends(){
+        return $this->hasMany('App\Contact');
+    }
+    public function iAmFriend(){
+        return $this->hasMany('App\Contact','friend_id');
+    }
+    public function pendingRequests(){
+        return $this->hasMany('App\Contact');
+    }
+
 }
