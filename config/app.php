@@ -147,11 +147,12 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
-
+        
         /*
          * Package Service Providers...
          */
-
+        Spatie\Activitylog\ActivitylogServiceProvider::class,
+        Spatie\Permission\PermissionServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -209,7 +210,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Activity' => 'Spatie\Activitylog\ActivitylogFacade',
+        
     ],
 
 ];

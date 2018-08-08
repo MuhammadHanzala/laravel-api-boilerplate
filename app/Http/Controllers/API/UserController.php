@@ -15,7 +15,6 @@ use Validator;
 use App\User;
 use App\VerifyUser;
 use App\PasswordReset;
-use App\Category;
 use App\TwoFACodes;
 use App\Mail\EmailVerification;
 use App\Mail\ForgotPasswordRequest;
@@ -73,14 +72,6 @@ class UserController extends Controller
                 'user_id' => $user->id,
                 'token' => str_random(40)
             ]);
-            $defaultCategories = ['Work', 'Home', 'Family', 'Sports', 'Travel'];
-            for ($i = 0; $i < 5; $i++) {
-                Category::create([
-                    'user_id' => $user->id,
-                    'name' => $defaultCategories[$i],
-                    'order' => $i + 1
-                ]);
-            }
             Mail::to($user->email)->send(new EmailVerification($user)); // Send Email for account verification
             $success['message'] = "We have sent a confirmation mail to your email. Please check your inbox.";
             return response()->json(['success' => $success], 200);

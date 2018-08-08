@@ -12,7 +12,9 @@
         "laravel/passport": "^6.0",
         "laravel/tinker": "^1.0",
         "nesbot/carbon": "1.25.*",
-        "spatie/laravel-medialibrary": "7.0.0"
+        "spatie/laravel-activitylog": "^2.8",
+        "spatie/laravel-medialibrary": "7.0.0",
+        "spatie/laravel-permission": "^2.13"
     },
     "require-dev": {
         "filp/whoops": "^2.0",

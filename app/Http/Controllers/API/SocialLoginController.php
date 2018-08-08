@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Mail;
 use Validator;
 use App\Image;
 use App\User;
-use App\Category;
 use App\TwoFACodes;
 use App\Mail\VerifyTwoFa;
 
@@ -105,15 +104,6 @@ class SocialLoginController extends Controller
             $success['user'] = $user;
             $success["user"]["token"] = $user->createToken($user->name)->accessToken;
             unset($user->{"media"});
-
-            $defaultCategories = ['Work', 'Home', 'Family', 'Sports', 'Travel'];
-            for($i = 0; $i < 5; $i++){
-                Category::create([
-                    'user_id' => $user->id,
-                    'name' => $defaultCategories[$i],
-                    'order' => $i + 1
-                ]);
-            }
             return response()->json(['success' => $success], 200);
         } catch (QueryException $exception) {
             return response()->json($exception, 400);
